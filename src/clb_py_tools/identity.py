@@ -14,12 +14,15 @@ class Identity:
     def __init__(self, client: Client, token: str) -> None:
         self.client = client
         self.token = token
+        self._get_userinfo(token)
+
+    def refresh(self):
+        self._get_userinfo(self.token)
+
+    def _get_userinfo(self, token: str) -> None:
         userinfo = self.client.get_userinfo(token)
         self.roles = Roles(userinfo.get("roles", {}))
         self.units = userinfo.get("units", [])
-
-    def refresh(self):
-        pass
 
     def has_collab_role(self, collab: str, role: str) -> bool:
         try:
@@ -37,6 +40,12 @@ class Identity:
 
     def is_collab_viewer(self, collab: str) -> bool:
         return self.has_collab_role(collab, "viewer")
+
+    def is_member_unit(self, unit: str) -> bool:
+        return any(member.startswith(unit) for member in self.units)
+
+    def has_client_role(self, client: str, role: str) -> bool:
+        return role in getattr(self.roles, client, [])
 
 
 class Roles:
@@ -57,11 +66,6 @@ class Roles:
                 self.teams = Team.parse_teams(roles)
             else:
                 setattr(self, client, roles)
-
-
-class Role:
-    def __init__(self, role):
-        pass
 
 
 class Team:
