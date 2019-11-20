@@ -17,7 +17,7 @@ setup(
     author_email='support@humanbrainproject.eu',
     url='https://wiki.humanbrainproject.eu/',
     package_dir={'': 'src'},
-    packages=find_packages(),
+    packages=find_packages('src'),
     install_requires=requirements,
     extras_require={'test': ['pytest', 'requests-mock']},
     python_requires='>=3.6',
