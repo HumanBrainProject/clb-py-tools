@@ -19,7 +19,7 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages('src'),
     install_requires=requirements,
-    extras_require={'test': ['pytest', 'requests-mock']},
+    extras_require={'testing': ['pytest', 'requests-mock']},
     python_requires='>=3.6',
     classifiers=[
         'Development Status :: 3 - Alpha',
