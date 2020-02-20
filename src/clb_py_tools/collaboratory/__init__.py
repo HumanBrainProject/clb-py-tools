@@ -11,7 +11,7 @@ __all__ = ['page', 'collab']
 
 
 class Collaboratory:
-    """ Interact with the Collaboratory. """
+    """ Client to interact with the Collaboratory. """
     _collaboratory = None
 
     @classmethod
@@ -44,12 +44,14 @@ class Collaboratory:
         return self._send('put', path, *args, **kwargs)
 
     # @TODO refactor
-    def get_collab(self, name: str) -> Collab:
+    def get_collab_info(self, name: str) -> Collab:
         with requests.get(f"{self.baseurl}/rest/v1/collabs/{name}") as resp:
             spec = resp.json()
-        spec["created"] = spec["createDate"]
-        del spec["createDate"]
-        return Collab(self, **spec)
+        return Collab(None, **spec)
+
+    def get_collabs(self, limit: int = 10, offset: int = 0, query: str = 0) -> typing.List[Collab]:
+        collab_resp = self.get(f'/rest/v1/collabs?search&limit={limit:d}&offset={offset:d}')
+        return [Collab(None, **resp) for resp in collab_resp]
 
 
 class InitialisationException(Exception):

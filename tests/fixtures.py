@@ -38,7 +38,7 @@ def client(mocked: requests_mock.Mocker) -> Client:
 
 
 @pytest.fixture()
-def a_test_collab(mocked: requests_mock.Mocker, access_token: str) -> collaboratory.Collab:  # noqa: 811
+def mock_test_collab(mocked: requests_mock.Mocker, access_token: str):  # noqa: 811
     mocked.get(
         f"{COLLABORATORY_URL}/rest/v1/collabs/{COLLAB_NAME}",
         json={
@@ -52,7 +52,12 @@ def a_test_collab(mocked: requests_mock.Mocker, access_token: str) -> collaborat
             "title": "test title",
         },
     )
-    return collaboratory.Collaboratory(COLLABORATORY_URL, access_token).get_collab(name=COLLAB_NAME)
+
+
+@pytest.fixture
+def a_test_collab(mock_test_collab) -> collaboratory.Collaboratory:
+    return collaboratory.Collaboratory(COLLABORATORY_URL, access_token)\
+                        .get_collab_info(name=COLLAB_NAME)
 
 
 @pytest.fixture()
