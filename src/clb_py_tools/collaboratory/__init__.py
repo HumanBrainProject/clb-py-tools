@@ -32,6 +32,7 @@ class Collaboratory:
         self.session.headers['Accept'] = 'application/json'
         if access_token is not None:
             self.session.headers['Authorization'] = f'Bearer {access_token}'
+        self._collabs = None
 
     def _send(self, type_, path, *args, **kwargs):
         method = getattr(self.session, type_)
@@ -47,11 +48,23 @@ class Collaboratory:
     def get_collab_info(self, name: str) -> Collab:
         with requests.get(f"{self.baseurl}/rest/v1/collabs/{name}") as resp:
             spec = resp.json()
-        return Collab(None, **spec)
+        return Collab(**spec)
 
-    def get_collabs(self, limit: int = 10, offset: int = 0, query: str = 0) -> typing.List[Collab]:
+    def get_collabs(self, limit: int = 10, offset: int = 0) -> typing.List[Collab]:
         collab_resp = self.get(f'/rest/v1/collabs?search&limit={limit:d}&offset={offset:d}')
-        return [Collab(None, **resp) for resp in collab_resp]
+        return {resp['name']: Collab(**resp) for resp in collab_resp}
+
+    @property
+    def collabs(self):
+        if self._collabs is None:
+            limit = 10
+            self._collabs = collabs = self.get_collabs(limit=limit)
+            offset = 10
+            while len(collabs) == 10:
+                collabs = self.get_collabs(limit=limit, offset=offset)
+                self._collabs.append(collabs)
+                offset += 10
+        return self._collabs
 
 
 class InitialisationException(Exception):

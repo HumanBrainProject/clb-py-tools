@@ -22,6 +22,11 @@ def setup_collaboratory():
     collaboratory.Collaboratory.initialise(collaboratory.Collaboratory(COLLABORATORY_URL))
 
 
+@pytest.fixture(scope="session")
+def a_test_collaboratory(setup_collaboratory):
+    return collaboratory.Collaboratory.get_collaboratory()
+
+
 @pytest.fixture()
 def mocked() -> requests_mock.Mocker:
     with requests_mock.Mocker() as mocked:

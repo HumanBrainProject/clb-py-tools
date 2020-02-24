@@ -47,6 +47,10 @@ def mock_get_collabs(mocked: requests_mock.Mocker) -> None:
 
 
 class TestCollaboratory:
-    def test_collaboratory(self, mock_get_collabs):
+    def test_collaboratory_get_collabs(self, mock_get_collabs):
         the_collaboratory = collaboratory.Collaboratory.get_collaboratory()
-        assert COLLAB_NAME in [c.name for c in the_collaboratory.get_collabs()]
+        assert COLLAB_NAME in the_collaboratory.get_collabs()
+
+    def test_collaboratory_collabs(self, mock_get_collabs):
+        the_collaboratory = collaboratory.Collaboratory.get_collaboratory()
+        assert COLLAB_NAME in the_collaboratory.collabs
