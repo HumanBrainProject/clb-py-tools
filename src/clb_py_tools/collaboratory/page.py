@@ -12,7 +12,7 @@ class Page:
     """ An object representing an XWiki page in the Collab """
     def __init__(self, parent: "Page", **kwargs) -> None:
         self.parent = parent
-        self._children = None
+        self._pages = None
         self.load_values(kwargs)
         self._set_urls()
         self._collaboratory = collaboratory.Collaboratory.get_collaboratory()
@@ -50,11 +50,11 @@ class Page:
         self.load_values(values)
 
     @property
-    def children(self) -> typing.List["Pages"]:
+    def pages(self) -> typing.List["Pages"]:
         """ List the pages under this page.
 
         Note: This will ignore missing levels with grandchildren
         """
-        if self._children is None:
-            self._children = self._collaboratory.get(self._webhome_url + '/children')
-        return self._children
+        if self._pages is None:
+            self._pages = self._collaboratory.get(self._webhome_url + '/children')
+        return self._pages
