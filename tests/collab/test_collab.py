@@ -8,7 +8,7 @@ from clb_py_tools import collaboratory
 from ..constants import COLLAB_NAME, COLLABORATORY_URL
 from ..fixtures import *  # noqa: F401, F403
 
-TEST_PAGE_NAME = 'a-test-page'
+TEST_PAGE_NAME = 'test page'
 
 COLLAB_INFO = {
     'description': 'Test Description',

@@ -5,21 +5,40 @@ from clb_py_tools import collaboratory
 
 
 class Page:
-    _properties = ('name', 'author', 'content', 'version', 'title', 'created_at',
-                   'modified_at')
+    _properties = ('author', 'content', 'version', 'title', 'created_at',
+                   'modified_at', 'space')
     _property_map = {'modified_at': 'modifiedAt', 'created_at': 'createdAt'}
 
     """ An object representing an XWiki page in the Collab """
-    def __init__(self, parent: "Page", **kwargs) -> None:
-        self.parent = parent
+    def __init__(self, parent_: "Page", name: str, **kwargs) -> None:
+        """ A Page represents an xwiki page.
+
+        :param parent_: a collaboratory.Page object under which this page is nested.
+        """
+        self._parent = parent_
         self._pages = None
+        self.name = name
+        self.page_name = 'WebHome'
         self.load_values(kwargs)
+        self._fix_page_name()
         self._set_urls()
         self._collaboratory = collaboratory.Collaboratory.get_collaboratory()
 
     def _set_urls(self):
-        self._relative_url = self.parent._relative_url + f'/spaces/{self.name}'
-        self._webhome_url = self._relative_url + '/pages/WebHome'
+        self._relative_url = self._parent._relative_url + f'/spaces/{self.name}'
+        self._webhome_url = self._relative_url + f'/pages/{self.page_name}'
+
+    def _fix_page_name(self) -> str:
+        """Fix the name when initialising from the xwiki representation.
+
+        Uses the space name rather than WebHome.
+
+        Note: Might break things a bit if someone creates a terminal page.
+        """
+        if self.space:
+            self.page_name = self.name
+            # Find the parent space's name
+            self.name = self.space[self.space.rindex('.')+1:]
 
     def export_values(self) -> typing.Dict[str, str]:
         """ Rerturn a dictionnary with page content. """
@@ -32,7 +51,8 @@ class Page:
         """ Return a dictionnary with page properties. """
         for prop in self._properties:
             orig_prop = self._property_map.get(prop, prop)
-            setattr(self, prop, values.get(orig_prop, None))
+            value = values.get(orig_prop, None)
+            setattr(self, prop, value)
 
     def update(self):
         """ Update page content on Collaboratory. """
@@ -50,11 +70,14 @@ class Page:
         self.load_values(values)
 
     @property
-    def pages(self) -> typing.List["Pages"]:
+    def pages(self) -> typing.Dict[str, "Pages"]:
         """ List the pages under this page.
 
         Note: This will ignore missing levels with grandchildren
         """
         if self._pages is None:
-            self._pages = self._collaboratory.get(self._webhome_url + '/children')
+            resp = self._collaboratory.get(self._webhome_url + '/children')
+            pages_info = resp['pageSummaries']
+            pages_ = [Page(self, **page_info) for page_info in pages_info]
+            self._pages = {page.name: page for page in pages_}
         return self._pages

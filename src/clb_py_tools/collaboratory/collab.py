@@ -7,8 +7,8 @@ class Collab(Page):
     _properties = Page._properties + ('member', 'description')
     _property_map = {'member': 'isMember'}
 
-    def __init__(self, **kwargs) -> None:
-        super().__init__(parent=None, **kwargs)
+    def __init__(self, name: str, **kwargs) -> None:
+        super().__init__(parent_=None, name=name, **kwargs)
 
     def _set_urls(self):
         """Sets the urls to access the Collab API.
