@@ -9,9 +9,11 @@ class Page:
 
     :ivar name: Page name: the last url segment of the collab, set in the collab properties. This is the last space's name in XWiki, rather than WebHome. Might not work with terminal pages.
     :ivar title: The page title.
-    :ivar content: The content of this page.
+    :ivar content: The content of this page. This is unrendered XWiki markup.
     :ivar author: The creator of the collab.
     :ivar created_at: The date and time of creation.
+
+    .. Note:: The content is not loaded when the pages are listed. You need to call `.refresh()` on the page instance first.
     """
     _properties = ('author', 'content', 'version', 'title', 'created_at',
                    'modified_at', 'space')
