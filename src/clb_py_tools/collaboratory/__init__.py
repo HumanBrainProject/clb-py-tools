@@ -95,7 +95,16 @@ class Collaboratory:
         return {resp['name']: Collab(**resp) for resp in collab_resp}
 
     @property
-    def collabs(self):
+    def collabs(self) -> typing.Dict:
+        """List collabs you can access.
+
+        The collabs are returned as a Dictionary indexed by collab name (the URL segment
+        of the collab, not the title). The collabs themselves are
+        :class:`clb_py_tools.collaboratory.Collab` objects.
+
+        .. Note:: Collabs are fetched only once and cached.
+
+        """
         if self._collabs is None:
             limit = 10
             self._collabs = collabs = self.get_collabs(limit=limit)
