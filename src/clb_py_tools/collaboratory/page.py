@@ -5,6 +5,14 @@ from clb_py_tools import collaboratory
 
 
 class Page:
+    """Represents an xwiki page.
+
+    :ivar name: Page name: the last url segment of the collab, set in the collab properties. This is the last space's name in XWiki, rather than WebHome. Might not work with terminal pages.
+    :ivar title: The page title.
+    :ivar content: The content of this page.
+    :ivar author: The creator of the collab.
+    :ivar created_at: The date and time of creation.
+    """
     _properties = ('author', 'content', 'version', 'title', 'created_at',
                    'modified_at', 'space')
     _property_map = {'modified_at': 'modifiedAt', 'created_at': 'createdAt'}
@@ -23,6 +31,9 @@ class Page:
         self._fix_page_name()
         self._set_urls()
         self._collaboratory = collaboratory.Collaboratory.get_collaboratory()
+
+    def __repr__(self):
+        return f'<{self.__class__.__name__}({self.name}, {self.title})>'
 
     def _set_urls(self):
         self._relative_url = self._parent._relative_url + f'/spaces/{self.name}'

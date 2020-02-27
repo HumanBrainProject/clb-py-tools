@@ -111,7 +111,7 @@ class Collaboratory:
             offset = 10
             while len(collabs) == 10:
                 collabs = self.get_collabs(limit=limit, offset=offset)
-                self._collabs.append(collabs)
+                self._collabs.update(collabs)
                 offset += 10
         return self._collabs
 
