@@ -1,4 +1,37 @@
 # ~*~ coding: utf-8 ~*~
+"""\
+clb_py_tools.collaboratory
+==========================
+
+A Collaboratory client for interacting with Collabs.
+
+Requires an access token, which can be obtained using the IAM client which is part of this
+package.
+
+Example:
+::
+
+    from clb_py_tools import collaboratory
+
+    # Setup Collaboratory client
+    access_token = 'my_access_token'
+    collaboratory.Collaboratory.setup_collaboratory('https://wiki.ebrains.eu', access_token)
+
+    # Obtain the collaboratory client
+    my_collaboratory = Collaboratory.get_collaboratory()
+    my_collab = my_collaboratory.collabs['my-collab-name']
+    my_page = my_collab.pages['my-page-name']
+    my_page.content
+
+
+.. autoclass:: Collaboratory
+
+.. autoclass:: Collab
+
+.. autoclass:: Page
+"""
+
+
 import typing
 
 import requests
@@ -16,15 +49,22 @@ class Collaboratory:
 
     @classmethod
     def get_collaboratory(cls):
-        """ Return singleton. """
+        """ Return configured Collaboratory singleton. """
         if cls._collaboratory is not None:
             return cls._collaboratory
         else:
             raise InitialisationException("Collaboratory not initialised")
 
     @classmethod
-    def initialise(cls, collaboratory: "Collaboratory") -> None:
-        cls._collaboratory = collaboratory
+    def initialise(cls, baseurl: str, access_token: str = None) -> None:
+        """ Set up a Collaboratory client singleton.
+
+        :param baseurl: the url of the wiki (probably https://wiki.ebrains.eu).
+        :param access_token: a valid access token with appropriate scopes.
+
+        .. note:: See the `Community App Developer Guide <https://wiki.ebrains.eu/bin/view/Collabs/collaboratory-community-apps/Community%20App%20Developer%20Guide/Interacting%20with%20the%20wiki/#HAuthentication>`_ for more information about scopes and the Wiki API.
+        """
+        cls._collaboratory = Collaboratory(baseurl, access_token)
 
     def __init__(self, baseurl: str, access_token: str = None) -> None:
         self.baseurl = baseurl

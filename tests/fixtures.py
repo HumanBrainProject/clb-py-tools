@@ -19,7 +19,7 @@ def access_token():
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_collaboratory():
-    collaboratory.Collaboratory.initialise(collaboratory.Collaboratory(COLLABORATORY_URL))
+    collaboratory.Collaboratory.initialise(COLLABORATORY_URL, 'access_token')
 
 
 @pytest.fixture(scope="session")
