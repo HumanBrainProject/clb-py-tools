@@ -18,11 +18,11 @@ class Collab(Page):
     def __init__(self, name: str, **kwargs) -> None:
         super().__init__(parent_=None, name=name, **kwargs)
 
-    def _set_urls(self):
+    def _set_urls(self, *args, **kwargs):
         """Sets the urls to access the Collab API.
         """
-        self._relative_url = f"/rest/wikis/xwiki/spaces/Collabs/spaces/{self.name}"
-        self._webhome_url = f"/rest/wikis/xwiki/spaces/Collabs/spaces/{self.name}/pages/WebHome"
+        self._space_url = f"/rest/wikis/xwiki/spaces/Collabs/spaces/{self.name}"
+        self._page_url = f"/rest/wikis/xwiki/spaces/Collabs/spaces/{self.name}/pages/WebHome"
 
     def editor(self) -> bool:
         """Check whether the user is an editor in the Collab.

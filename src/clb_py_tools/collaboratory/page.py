@@ -1,5 +1,7 @@
 # ~*~ coding: utf-8 ~*~
+import functools
 import typing
+import urllib.parse
 
 from clb_py_tools import collaboratory
 
@@ -17,7 +19,7 @@ class Page:
     """
     _properties = ('author', 'content', 'version', 'title', 'created_at',
                    'modified_at', 'space')
-    _property_map = {'modified_at': 'modifiedAt', 'created_at': 'createdAt'}
+    _property_map = {'modified_at': 'modifiedAt', 'created_at': 'createdAt', 'wiki_url': 'xwikiAbsoluteUrl'}
 
     """ An object representing an XWiki page in the Collab """
     def __init__(self, parent_: "Page", name: str, **kwargs) -> None:
@@ -26,20 +28,43 @@ class Page:
         :param parent_: a collaboratory.Page object under which this page is nested.
         """
         self._parent = parent_
+        self._collaboratory = collaboratory.Collaboratory.get_collaboratory()
         self._pages = None
         self.name = name
         self.page_name = 'WebHome'
         self.load_values(kwargs)
+        self._set_urls(kwargs)
         self._fix_page_name()
-        self._set_urls()
-        self._collaboratory = collaboratory.Collaboratory.get_collaboratory()
+        self.loaded = False
 
     def __repr__(self):
         return f'<{self.__class__.__name__}({self.name}, {self.title})>'
 
-    def _set_urls(self):
-        self._relative_url = self._parent._relative_url + f'/spaces/{self.name}'
-        self._webhome_url = self._relative_url + f'/pages/{self.page_name}'
+    def _set_urls(self, values: typing.Dict) -> None:
+        """Load urls from links if available.
+        """
+        def is_link(link: str, type_: str) -> bool:
+            types = {'space': 'http://www.xwiki.org/rel/space',
+                     'page': 'http://www.xwiki.org/rel/page'}
+            return link.get('rel') == types.get(type_)
+
+        def extract_link(links: str, type_: str) -> str:
+            links = filter(functools.partial(is_link, type_=type_), links)
+            try:
+                link = next(links).get('href')
+            except StopIteration:
+                return None
+            parts = urllib.parse.urlparse(link)
+            return parts.path
+
+        if 'links' in values:
+            links = values['links']
+            self._space_url = extract_link(links, 'space')
+            self._page_url = extract_link(links, 'page')
+        else:
+            # heuristic
+            self._space_url = self._parent._space_url + f'/spaces/{self.name}'
+            self._page_url = self._space_url + f'/pages/{self.page_name}'
 
     def _fix_page_name(self) -> str:
         """Fix the name when initialising from the xwiki representation.
@@ -48,10 +73,11 @@ class Page:
 
         Note: Might break things a bit if someone creates a terminal page.
         """
-        if self.space:
+        if self.name == 'WebHome' and self._space_url:
             self.page_name = self.name
             # Find the parent space's name
-            self.name = self.space[self.space.rindex('.')+1:]
+            info = self._collaboratory.get(self._space_url)
+            self.name = info['name']
 
     def export_values(self) -> typing.Dict[str, str]:
         """ Rerturn a dictionnary with page content. """
@@ -69,18 +95,19 @@ class Page:
 
     def update(self):
         """ Update page content on Collaboratory. """
-        self._collaboratory.put(self._webhome_url, self.export_values())
+        self._collaboratory.put(self._page_url, self.export_values())
 
     def create(self):
         """ Create the page on the Collaboratory. """
-        self._collaboratory.put(self._webhome_url, self.export_values())
+        self._collaboratory.put(self._page_url, self.export_values())
 
     def delete(self):
-        self._collaboratory.delete(self._webhome_url, self.export_values())
+        self._collaboratory.delete(self._page_url, self.export_values())
 
     def refresh(self):
-        values = self._collaboratory.get(self._webhome_url)
+        values = self._collaboratory.get(self._page_url)
         self.load_values(values)
+        self.loaded = True
 
     @property
     def pages(self) -> typing.Dict[str, "Pages"]:
@@ -89,7 +116,7 @@ class Page:
         Note: This will ignore missing levels with grandchildren
         """
         if self._pages is None:
-            resp = self._collaboratory.get(self._webhome_url + '/children')
+            resp = self._collaboratory.get(self._page_url + '/children')
             pages_info = resp['pageSummaries']
             pages_ = [Page(self, **page_info) for page_info in pages_info]
             self._pages = {page.name: page for page in pages_}

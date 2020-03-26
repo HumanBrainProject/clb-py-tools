@@ -53,7 +53,7 @@ class Collaboratory:
         if cls._collaboratory is not None:
             return cls._collaboratory
         else:
-            raise InitialisationException("Collaboratory not initialised")
+            raise InitialisationError("Collaboratory not initialised")
 
     @classmethod
     def initialise(cls, baseurl: str, access_token: str = None) -> None:
@@ -76,7 +76,10 @@ class Collaboratory:
 
     def _send(self, type_, path, *args, **kwargs):
         method = getattr(self.session, type_)
-        return method(self.baseurl + path, *args, **kwargs).json()
+        try:
+            return method(self.baseurl + path, *args, **kwargs, timeout=3).json()
+        except requests.exceptions.Timeout:
+            raise ConnectionError(message="Timeout from Collaboratory Wiki")
 
     def get(self, path: str, *args, **kwargs) -> typing.Dict:
         return self._send('get', path, *args, **kwargs)
@@ -103,18 +106,25 @@ class Collaboratory:
         :class:`clb_py_tools.collaboratory.Collab` objects.
 
         .. Note:: Collabs are fetched only once and cached.
-
         """
         if self._collabs is None:
             limit = 10
             self._collabs = collabs = self.get_collabs(limit=limit)
-            offset = 10
-            while len(collabs) == 10:
+            offset = limit
+            while len(collabs) == limit:
                 collabs = self.get_collabs(limit=limit, offset=offset)
                 self._collabs.update(collabs)
-                offset += 10
+                offset += limit
         return self._collabs
 
 
-class InitialisationException(Exception):
+class CollaboratoryError(Exception):
+    pass
+
+
+class InitialisationError(CollaboratoryError):
+    pass
+
+
+class ConnectionError(CollaboratoryError):
     pass

@@ -1,4 +1,6 @@
+import re
 import os
+import urllib
 
 import pytest
 import requests_mock
@@ -15,6 +17,10 @@ COLLAB_INFO = {
     'isMember': True,
     'name': COLLAB_NAME,
     'title': 'A test collab',
+    'links': [
+        {'href': f'{COLLABORATORY_URL}/rest/wikis/xwiki/spaces/Collabs/spaces/{COLLAB_NAME}', f'hrefLang': None, f'rel': f'http://www.xwiki.org/rel/space', f'type': None},
+        {'href': f'{COLLABORATORY_URL}/rest/wikis/xwiki/spaces/Collabs/spaces/{COLLAB_NAME}/pages/WebHome', f'hrefLang': None, f'rel': f'http://www.xwiki.org/rel/page', f'type': None}
+        ],
 }
 
 
@@ -26,9 +32,17 @@ def my_test_collab() -> collaboratory.Collab:
 @pytest.fixture
 def mocked_test_page(mocked: requests_mock.Mocker) -> collaboratory.Page:
     base_path = os.path.dirname(__file__)
+
+    def responder(request, context):
+        name = urllib.parse.unquote(request.path.rsplit('/')[-1])
+        return {"name": name}
+
     with open(base_path + '/responses/test_collab.json') as test_file:
         path = '/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/pages/WebHome/children'
         mocked.get(COLLABORATORY_URL + path, text=test_file.read())
+        path_matcher = re.compile('/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/(.*)')
+        mocked.get(path_matcher, json=responder)
+
 
 
 class TestCollab:

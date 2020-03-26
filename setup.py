@@ -18,7 +18,7 @@ setup(
     packages=find_packages("src"),
     install_requires=requirements,
     extras_require={
-        "testing": ["pytest", "requests-mock"],
+        "testing": ["pytest", "requests-mock", "tox", "pytest-tornasync"],
         "development": ["sphinx", "sphinx_rtd_theme", "sphinxcontrib-napoleon"],
     },
     python_requires=">=3.6",

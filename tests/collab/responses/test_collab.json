@@ -4,23 +4,23 @@
       {
          "author" : "XWiki.example_author",
          "authorName" : null,
-         "fullName" : "Collabs.test-name.Changelog.WebHome",
-         "id" : "xwiki:Collabs.test-name.Changelog.WebHome",
+         "fullName" : "Collabs.test-name.test page.WebHome",
+         "id" : "xwiki:Collabs.test-name.test page.WebHome",
          "links" : [
             {
-               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/Changelog",
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test%20page",
                "hrefLang" : null,
                "rel" : "http://www.xwiki.org/rel/space",
                "type" : null
             },
             {
-               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/Changelog/pages/WebHome",
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test%20page/pages/WebHome",
                "hrefLang" : null,
                "rel" : "http://www.xwiki.org/rel/parent",
                "type" : null
             },
             {
-               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/Changelog/pages/WebHome/history",
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test%20page/pages/WebHome/history",
                "hrefLang" : null,
                "rel" : "http://www.xwiki.org/rel/history",
                "type" : null
@@ -32,7 +32,7 @@
                "type" : null
             },
             {
-               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/Changelog/pages/WebHome",
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test%20page/pages/WebHome",
                "hrefLang" : null,
                "rel" : "http://www.xwiki.org/rel/page",
                "type" : null
@@ -41,9 +41,9 @@
          "name" : "WebHome",
          "parent" : "Collabs.test-name.WebHome",
          "parentId" : "xwiki:Collabs.test-name.WebHome",
-         "space" : "Collabs.test-name.Changelog",
+         "space" : "Collabs.test-name.test page",
          "syntax" : "xwiki/2.1",
-         "title" : "Changelog",
+         "title" : "test page",
          "translations" : {
             "default" : null,
             "links" : [],
@@ -51,8 +51,8 @@
          },
          "version" : "1.1",
          "wiki" : "xwiki",
-         "xwikiAbsoluteUrl" : "https://wiki.example.com/bin/view/Collabs/test-name/Changelog/",
-         "xwikiRelativeUrl" : "https://wiki.example.com/bin/view/Collabs/test-name/Changelog/"
+         "xwikiAbsoluteUrl" : "https://wiki.example.com/bin/view/Collabs/test-name/test%20page/",
+         "xwikiRelativeUrl" : "https://wiki.example.com/bin/view/Collabs/test-name/test%20page/"
       },
       {
          "author" : "XWiki.example_author",
