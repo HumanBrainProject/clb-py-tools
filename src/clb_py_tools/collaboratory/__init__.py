@@ -29,6 +29,8 @@ Example:
 .. autoclass:: Collab
 
 .. autoclass:: Page
+
+.. autoclass:: Attachment
 """
 
 
@@ -36,11 +38,11 @@ import typing
 
 import requests
 
-from .page import Page  # noqa: F401
+from .attachment import Attachment  # noqa: F401
 from .collab import Collab
+from .page import Page  # noqa: F401
 
-
-__all__ = ['page', 'collab']
+__all__ = ['page', 'collab', 'attachment']
 
 
 class Collaboratory:

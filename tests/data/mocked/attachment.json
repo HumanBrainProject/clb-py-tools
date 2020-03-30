@@ -1,0 +1,36 @@
+{
+    "links": [
+
+    ],
+    "attachments": [
+        {
+            "links": [
+                {
+                    "href": "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/tests/pages/WebHome",
+                    "rel": "http://www.xwiki.org/rel/page",
+                    "type": null,
+                    "hrefLang": null
+                },
+                {
+                    "href": "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/tests/pages/WebHome/attachments/notebook.ipynb",
+                    "rel": "http://www.xwiki.org/rel/attachmentData",
+                    "type": null,
+                    "hrefLang": null
+                }
+            ],
+            "id": "xwiki:Collabs.test-name.tests.WebHome@notebook.ipynb",
+            "name": "notebook.ipynb",
+            "size": 14811,
+            "longSize": 0,
+            "version": "1.1",
+            "pageId": "xwiki:Collabs.test-name.tests.WebHome",
+            "pageVersion": "2.1",
+            "mimeType": "text/plain",
+            "author": "XWiki.test",
+            "authorName": null,
+            "date": 1584017288000,
+            "xwikiRelativeUrl": "https://wiki.example.com/bin/download/Collabs/test-name/tests/WebHome/notebook.ipynb",
+            "xwikiAbsoluteUrl": "https://wiki.example.com/bin/download/Collabs/test-name/tests/WebHome/notebook.ipynb"
+        }
+    ]
+}

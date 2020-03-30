@@ -53,7 +53,9 @@ class Page:
         """
         def is_link(link: str, type_: str) -> bool:
             types = {'space': 'http://www.xwiki.org/rel/space',
-                     'page': 'http://www.xwiki.org/rel/page'}
+                     'page': 'http://www.xwiki.org/rel/page',
+                     'attachments': 'http://www.xwiki.org/rel/attachments',
+            }
             return link.get('rel') == types.get(type_)
 
         def extract_link(links: str, type_: str) -> str:
@@ -144,3 +146,9 @@ class Page:
             self._pages = {page.name: page for page in pages_}
 
         return self._pages
+
+    @property
+    def attachments(self) -> typing.Dict[str, "collaboratory.attachment.Attachment"]:
+        resp = self._collaboratory.get(self._page_url + '/attachments')
+        return {attachment["name"]: collaboratory.Attachment(**attachment) for attachment in
+                resp["attachments"]}

@@ -1,3 +1,4 @@
+import json
 import os
 
 import pytest
@@ -74,3 +75,14 @@ def a_test_page(mocked: requests_mock.Mocker, a_test_collab: collaboratory.Colla
     page = collaboratory.Page(a_test_collab, name=PAGE_NAME)
     page.refresh()
     return page
+
+
+@pytest.fixture()
+def a_test_attachment(mocked: requests_mock.Mocker, a_test_collab: collaboratory.Collab, a_test_page: collaboratory.Page) -> collaboratory.attachment.Attachment:  # noqa: 811
+    with open('tests/data/mocked/attachment.json') as f:
+        resp_json = json.load(f)
+    mocked.get(
+        f"{COLLABORATORY_URL}/rest/wikis/xwiki/spaces/Collabs/spaces/{COLLAB_NAME}/spaces/{PAGE_NAME}/pages/WebHome/attachments",  # noqa: E501
+        json=resp_json  # noqa: E501
+    )
+    return next(iter(a_test_page.attachments.values()))
