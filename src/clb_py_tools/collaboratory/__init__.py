@@ -34,6 +34,7 @@ Example:
 """
 
 
+from functools import reduce
 import typing
 
 import requests
@@ -48,6 +49,10 @@ __all__ = ['page', 'collab', 'attachment']
 class Collaboratory:
     """ Client to interact with the Collaboratory. """
     _collaboratory = None
+
+    response_transformers = {
+        'to_json': lambda r: r.json()
+        }
 
     @classmethod
     def get_collaboratory(cls):
@@ -76,10 +81,14 @@ class Collaboratory:
             self.session.headers['Authorization'] = f'Bearer {access_token}'
         self._collabs = None
 
-    def _send(self, type_, path, *args, **kwargs):
+    def _send(self, type_, path,
+              response_transformations: typing.Iterable[typing.Callable] =
+              (response_transformers['to_json'],),
+              *args, **kwargs):
         method = getattr(self.session, type_)
         try:
-            return method(self.baseurl + path, *args, **kwargs, timeout=3).json()
+            resp = method(self.baseurl + path, *args, **kwargs, timeout=3)
+            return reduce(lambda s, t: t(s), (resp,) + response_transformations)
         except requests.exceptions.Timeout:
             raise ConnectionError(message="Timeout from Collaboratory Wiki")
 

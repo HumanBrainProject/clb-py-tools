@@ -149,6 +149,24 @@ class Page:
 
     @property
     def attachments(self) -> typing.Dict[str, "collaboratory.attachment.Attachment"]:
+        """List the attachments on this page.
+        """
         resp = self._collaboratory.get(self._page_url + '/attachments')
         return {attachment["name"]: collaboratory.Attachment(**attachment) for attachment in
                 resp["attachments"]}
+
+    def attach(self, name: str, content: typing.Iterable, content_type: str = None) -> bool:
+        """Add an attachment on this page.
+
+        :param name: the filename of the attachment
+        :param content: the content of the attachment to upload.
+        :param content_type: The media type of the file.
+        :return success: Boolean if file was uploaded and attachment was created or updated.
+        """
+        name = urllib.parse.quote(name)
+        extra_args = {}
+        if content_type:
+            extra_args['headers'] = {'Content-Type': content_type}
+        self._collaboratory.put(self._page_url + f'/attachments/{name}', data=content,
+                                response_transformations=tuple(), **extra_args)
+        return True
