@@ -12,8 +12,9 @@ class Collab(Page):
     :ivar author: The creator of the collab.
     :ivar created_at: The date and time of creation.
     """
-    _properties = Page._properties + ('member', 'description')
-    _property_map = {'member': 'isMember'}
+
+    _properties = Page._properties + ("member", "description")
+    _property_map = {"member": "isMember"}
 
     def __init__(self, name: str, **kwargs) -> None:
         super().__init__(parent_=None, name=name, **kwargs)
@@ -22,7 +23,9 @@ class Collab(Page):
         """Sets the urls to access the Collab API.
         """
         self._space_url = f"/rest/wikis/xwiki/spaces/Collabs/spaces/{self.name}"
-        self._page_url = f"/rest/wikis/xwiki/spaces/Collabs/spaces/{self.name}/pages/WebHome"
+        self._page_url = (
+            f"/rest/wikis/xwiki/spaces/Collabs/spaces/{self.name}/pages/WebHome"
+        )
 
     def editor(self) -> bool:
         """Check whether the user is an editor in the Collab.

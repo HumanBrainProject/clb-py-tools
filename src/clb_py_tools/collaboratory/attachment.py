@@ -10,7 +10,8 @@ class Attachment:
     :ivar version:: Document version
     :ivar url:: REST API url to download content from
     """
-    properties = ('name', 'date', 'author', 'version')
+
+    properties = ("name", "date", "author", "version")
 
     def __init__(self, **kwargs):
         for property_ in Attachment.properties:
@@ -19,10 +20,13 @@ class Attachment:
         self._set_url(kwargs)
 
     def _set_url(self, values):
-        if 'links' in values:
+        if "links" in values:
             try:
-                self.url = next(filter(lambda l:
-                                       l['rel'] == 'http://www.xwiki.org/rel/attachmentData',
-                                       values['links']))['href']
+                self.url = next(
+                    filter(
+                        lambda l: l["rel"] == "http://www.xwiki.org/rel/attachmentData",
+                        values["links"],
+                    )
+                )["href"]
             except StopIteration:
                 pass

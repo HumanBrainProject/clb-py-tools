@@ -6,7 +6,7 @@ from clb_py_tools import collaboratory
 from ..fixtures import *
 from ..constants import COLLAB_NAME, COLLABORATORY_URL
 
-resp = f'''
+resp = f"""
 [{{
       "createDate" : 1559134356000,
       "description" : "",
@@ -37,13 +37,14 @@ resp = f'''
       "name" : "collab-in-team-client-for-test-1",
       "title" : "Collab in team client for test 1"
    }}]
-'''
+"""
 
 
 @pytest.fixture
 def mock_get_collabs(mocked: requests_mock.Mocker) -> None:
-    mocked.get(f"{COLLABORATORY_URL}/rest/v1/collabs?search&limit=10&offset=0",
-               text=resp)
+    mocked.get(
+        f"{COLLABORATORY_URL}/rest/v1/collabs?search&limit=10&offset=0", text=resp
+    )
 
 
 class TestCollaboratory:

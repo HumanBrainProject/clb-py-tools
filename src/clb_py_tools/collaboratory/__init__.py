@@ -43,16 +43,15 @@ from .attachment import Attachment  # noqa: F401
 from .collab import Collab
 from .page import Page  # noqa: F401
 
-__all__ = ['page', 'collab', 'attachment']
+__all__ = ["page", "collab", "attachment"]
 
 
 class Collaboratory:
     """ Client to interact with the Collaboratory. """
+
     _collaboratory = None
 
-    response_transformers = {
-        'to_json': lambda r: r.json()
-        }
+    response_transformers = {"to_json": lambda r: r.json()}
 
     @classmethod
     def get_collaboratory(cls):
@@ -76,15 +75,21 @@ class Collaboratory:
     def __init__(self, baseurl: str, access_token: str = None) -> None:
         self.baseurl = baseurl
         self.session = requests.Session()
-        self.session.headers['Accept'] = 'application/json'
+        self.session.headers["Accept"] = "application/json"
         if access_token is not None:
-            self.session.headers['Authorization'] = f'Bearer {access_token}'
+            self.session.headers["Authorization"] = f"Bearer {access_token}"
         self._collabs = None
 
-    def _send(self, type_, path,
-              response_transformations: typing.Iterable[typing.Callable] =
-              (response_transformers['to_json'],),
-              *args, **kwargs):
+    def _send(
+        self,
+        type_,
+        path,
+        response_transformations: typing.Iterable[typing.Callable] = (
+            response_transformers["to_json"],
+        ),
+        *args,
+        **kwargs,
+    ):
         method = getattr(self.session, type_)
         try:
             resp = method(self.baseurl + path, *args, **kwargs, timeout=3)
@@ -93,10 +98,10 @@ class Collaboratory:
             raise ConnectionError(message="Timeout from Collaboratory Wiki")
 
     def get(self, path: str, *args, **kwargs) -> typing.Dict:
-        return self._send('get', path, *args, **kwargs)
+        return self._send("get", path, *args, **kwargs)
 
     def put(self, path: str, *args, **kwargs) -> typing.Dict:
-        return self._send('put', path, *args, **kwargs)
+        return self._send("put", path, *args, **kwargs)
 
     # @TODO refactor
     def get_collab_info(self, name: str) -> Collab:
@@ -105,8 +110,10 @@ class Collaboratory:
         return Collab(**spec)
 
     def get_collabs(self, limit: int = 10, offset: int = 0) -> typing.List[Collab]:
-        collab_resp = self.get(f'/rest/v1/collabs?search&limit={limit:d}&offset={offset:d}')
-        return {resp['name']: Collab(**resp) for resp in collab_resp}
+        collab_resp = self.get(
+            f"/rest/v1/collabs?search&limit={limit:d}&offset={offset:d}"
+        )
+        return {resp["name"]: Collab(**resp) for resp in collab_resp}
 
     @property
     def collabs(self) -> typing.Dict:
