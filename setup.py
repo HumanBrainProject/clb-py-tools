@@ -7,7 +7,7 @@ with open("README.md") as rm:
 
 setup(
     name="clb-py-tools",
-    version="0.1.3",
+    version="0.2.0",
     description="The Collaboratory Python Tools are a set of packages to help"
     "with the integration with the Collaboratory services and infrastructure.",
     long_description=long_description,
