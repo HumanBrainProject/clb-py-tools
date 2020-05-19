@@ -120,7 +120,8 @@ class Collaboratory:
         """List collabs you can access.
 
         The collabs are returned as a Dictionary indexed by collab name (the URL segment
-        of the collab, not the title). The collabs themselves are
+        of the collab, not the title).
+
         :class:`clb_py_tools.collaboratory.Collab` objects.
 
         .. Note:: Collabs are fetched only once and cached.

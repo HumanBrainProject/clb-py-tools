@@ -174,10 +174,10 @@ class Page:
         extra_args = {}
         if content_type:
             extra_args["headers"] = {"Content-Type": content_type}
-        self._collaboratory.put(
+        resp = self._collaboratory.put(
             self._page_url + f"/attachments/{name}",
             data=content,
             response_transformations=tuple(),
             **extra_args,
         )
-        return True
+        return 200 <= resp.status_code <= 204
