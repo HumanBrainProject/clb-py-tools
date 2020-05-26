@@ -1,0 +1,117 @@
+{
+   "links" : [],
+   "pageSummaries" : [
+      {
+         "author" : "XWiki.example_author",
+         "authorName" : null,
+         "fullName" : "Collabs.test-name.test page.WebHome",
+         "id" : "xwiki:Collabs.test-name.test page.WebHome",
+         "links" : [
+            {
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test%20page",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/space",
+               "type" : null
+            },
+            {
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test%20page/pages/WebHome",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/parent",
+               "type" : null
+            },
+            {
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test%20page/pages/WebHome/history",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/history",
+               "type" : null
+            },
+            {
+               "href" : "https://wiki.example.com/rest/syntaxes",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/syntaxes",
+               "type" : null
+            },
+            {
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test%20page/pages/WebHome",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/page",
+               "type" : null
+            }
+         ],
+         "name" : "WebHome",
+         "parent" : "Collabs.test-name.WebHome",
+         "parentId" : "xwiki:Collabs.test-name.WebHome",
+         "space" : "Collabs.test-name.test page",
+         "syntax" : "xwiki/2.1",
+         "title" : "test page",
+         "translations" : {
+            "default" : null,
+            "links" : [],
+            "translations" : []
+         },
+         "version" : "1.1",
+         "wiki" : "xwiki",
+         "xwikiAbsoluteUrl" : "https://wiki.example.com/bin/view/Collabs/test-name/test%20page/",
+         "xwikiRelativeUrl" : "https://wiki.example.com/bin/view/Collabs/test-name/test%20page/"
+      },
+      {
+         "author" : "XWiki.example_author",
+         "authorName" : null,
+         "fullName" : "Collabs.test-name.test page.WebHome",
+         "id" : "xwiki:Collabs.test-name.test page.WebHome",
+         "links" : [
+            {
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test-page",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/space",
+               "type" : null
+            },
+            {
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test-page/pages/WebHome",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/parent",
+               "type" : null
+            },
+            {
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test-page/pages/WebHome/history",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/history",
+               "type" : null
+            },
+            {
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test-page/pages/WebHome/children",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/children",
+               "type" : null
+            },
+            {
+               "href" : "https://wiki.example.com/rest/syntaxes",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/syntaxes",
+               "type" : null
+            },
+            {
+               "href" : "https://wiki.example.com/rest/wikis/xwiki/spaces/Collabs/spaces/test-name/spaces/test-page/pages/WebHome",
+               "hrefLang" : null,
+               "rel" : "http://www.xwiki.org/rel/page",
+               "type" : null
+            }
+         ],
+         "name" : "WebHome",
+         "parent" : "Collabs.test-name.WebHome",
+         "parentId" : "xwiki:Collabs.test-name.WebHome",
+         "space" : "Collabs.test-name.test page",
+         "syntax" : "xwiki/2.1",
+         "title" : "test page",
+         "translations" : {
+            "default" : null,
+            "links" : [],
+            "translations" : []
+         },
+         "version" : "1.1",
+         "wiki" : "xwiki",
+         "xwikiAbsoluteUrl" : "https://wiki.example.com/bin/view/Collabs/test-name/test-page/",
+         "xwikiRelativeUrl" : "https://wiki.example.com/bin/view/Collabs/test-name/test-page/"
+      }]
+
+}
